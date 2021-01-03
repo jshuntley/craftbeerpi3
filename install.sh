@@ -33,12 +33,10 @@ show_menu () {
        1)
            confirmAnswer "Would you like run apt-get update & apt-get upgrade?"
            if [ $? = 0 ]; then
-             apt-get -y update; apt-get -y upgrade;
+             apt-get update; apt-get upgrade -y;
            fi
 
-#           apt-get -y install python-setuptools
-           apt-get -y install python3-pip python3-dev python3-rpi.gpio
-           apt-get -y install libpcre3-dev git
+           apt-get install python3-setuptools python3-pip python3-dev python3-rpi.gpio libpcre3-dev -y
            pip3 install -r requirements.txt
 
            confirmAnswer "Would you like to add active 1-wire support at your Raspberry PI now? IMPORTANT: The 1-wire thermometer must be conneted to GPIO 4!"
