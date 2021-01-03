@@ -51,29 +51,25 @@ show_menu () {
 
            sudo mv ./config/splash.png /usr/share/plymouth/themes/pix/splash.png
 
-           sed "s|#DIR#|${PWD}|g" config/craftbeerpiboot > /etc/init.d/craftbeerpiboot
-           chmod +x /etc/init.d/craftbeerpiboot;
-
-           whiptail --title "Installition Finished" --msgbox "CraftBeerPi installation finished! You must hit OK to continue." 8 78
+           sudo sed "s|#DIR#|${PWD}|g" config/cbpi.service > /etc/systemd/system/cbpi.service
+           sudo systemctl daemon-reload
+           whiptail --title "Installition Finished" --msgbox "CraftBeerPi installation finished! Press OK to continue." 8 78
            show_menu
            ;;
        2)
-          confirmAnswer "Are you sure you want to clear the CraftBeerPi. All hardware setting will be deleted"
+          confirmAnswer "Are you sure you want to clear CraftBeerPi? All hardware settings will be deleted."
           if [ $? = 0 ]; then
             sudo rm -f craftbeerpi.db
-            whiptail --title "Database Delted" --msgbox "The CraftBeerPi database was succesfully deleted. You must hit OK to continue." 8 78
+            whiptail --title "Database Deleted" --msgbox "The CraftBeerPi database was succesfully deleted. You must hit OK to continue." 8 78
             show_menu
           else
            show_menu
           fi
           ;;
        3)
-           confirmAnswer "Are you sure you want to add CraftBeerPi to autostart"
-           if [ $? = 0 ]; then
-             sudo sed "s|#DIR#|${PWD}|g" config/cbpi.service > /etc/systemd/system/cbpi.service
-            #  chmod +x /etc/init.d/craftbeerpiboot;
-            #  update-rc.d craftbeerpiboot defaults;
-            sudo systemctl enable cbpi.service
+           confirmAnswer "Are you sure you want to add CraftBeerPi to autostart?"
+           if [ $? = 0 ]; then            
+            sudo systemctl enable cbpi
              whiptail --title "Success!" --msgbox "The CraftBeerPi was added to autostart succesfully. You must hit OK to continue." 8 78
              show_menu
            else
@@ -81,23 +77,23 @@ show_menu () {
            fi
            ;;
        4)
-           confirmAnswer "Are you sure you want to remove CraftBeerPi from autostart"
+           confirmAnswer "Are you sure you want to remove CraftBeerPi from autostart?"
            if [ $? = 0 ]; then
-               update-rc.d -f craftbeerpiboot remove
+               sudo systemctl disable cbpi
                show_menu
            else
                show_menu
            fi
            ;;
        5)
-           sudo /etc/init.d/craftbeerpiboot start
+           sudo systemctl start cbpi
            ipaddr=`hostname -I | awk '{print $1}'`
            whiptail --title "CraftBeerPi started" --msgbox "Please connect via Browser: http://$ipaddr:5000" 8 78
            show_menu
            ;;
        6)
-           sudo /etc/init.d/craftbeerpiboot stop
-           whiptail --title "CraftBeerPi stopped" --msgbox "The software is stopped" 8 78
+           sudo systemctl stop cbpi
+           whiptail --title "CraftBeerPi stopped" --msgbox "The software is stopped." 8 78
            show_menu
             ;;
        7)
