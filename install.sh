@@ -73,7 +73,7 @@ show_menu () {
              sed "s|#DIR#|${PWD}|g" config/craftbeerpiboot > /etc/init.d/craftbeerpiboot
              chmod +x /etc/init.d/craftbeerpiboot;
              update-rc.d craftbeerpiboot defaults;
-             whiptail --title "Added succesfull to autostart" --msgbox "The CraftBeerPi was added to autostart succesfully. You must hit OK to continue." 8 78
+             whiptail --title "Success!" --msgbox "The CraftBeerPi was added to autostart succesfully. You must hit OK to continue." 8 78
              show_menu
            else
             show_menu
