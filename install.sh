@@ -70,7 +70,7 @@ show_menu () {
        3)
            confirmAnswer "Are you sure you want to add CraftBeerPi to autostart"
            if [ $? = 0 ]; then
-             sed 's/#DIR#/${PWD}/g' config/craftbeerpiboot > /etc/init.d/craftbeerpiboot
+             sed "s|#DIR#|${PWD}|g" config/craftbeerpiboot > /etc/init.d/craftbeerpiboot
              chmod +x /etc/init.d/craftbeerpiboot;
              update-rc.d craftbeerpiboot defaults;
              whiptail --title "Added succesfull to autostart" --msgbox "The CraftBeerPi was added to autostart succesfully. You must hit OK to continue." 8 78
