@@ -91,7 +91,7 @@ show_menu () {
        5)
            sudo /etc/init.d/craftbeerpiboot start
           #  ipaddr=`ifconfig wlan0 2>/dev/null|awk '/inet addr:/ {print $2}'|sed 's/addr://'`
-          ipaddr='hostname -I | awk '"'"'{print \$1}'"'"''
+          ipaddr=`hostname -I | awk '{print \$1}'`
            whiptail --title "CraftBeerPi started" --msgbox "Please connect via Browser: http://$ipaddr:5000" 8 78
            show_menu
            ;;
