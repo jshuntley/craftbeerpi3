@@ -146,10 +146,9 @@ show_menu () {
             ;;
         12)
             confirmAnswer "Are you sure you want to uninstall CraftBeerPi?"
-            if [ $? = 0]; then
-              sudo /etc/init.d/craftbeerpiboot stop
-              update-rc.d -f craftbeerpiboot remove
-              sudo rm -f /etc/init.d/craftbeerpiboot
+            if [ $? = 0 ]; then
+              sudo systemctl stop cbpi
+              sudo rm -f /etc/systemd/system/cbpi.service
               whiptail --title "Uninstalled" --msgbox "CraftBeerPi was uninstalled. Press OK to continue." 8 78
               show_menu
             else
