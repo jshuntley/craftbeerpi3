@@ -20,7 +20,8 @@ show_menu () {
    "8" "Reset File Changes (git reset --hard)" \
    "9" "Clear all logs" \
    "10" "Reboot Raspberry Pi" \
-   "11" "Stop CraftBeerPi, Clear logs, Start CraftBeerPi" 3>&1 1>&2 2>&3)
+   "11" "Stop CraftBeerPi, Clear logs, Start CraftBeerPi" 3>&1 1>&2 2>&3 \
+   "12" "Uninstall CraftBeerPi")
 
    BUTTON=$?
    # Exit if user pressed cancel or escape
@@ -36,7 +37,6 @@ show_menu () {
            fi
 
 #           apt-get -y install python-setuptools
-#           easy_install pip
            apt-get -y install python3-pip python3-dev python3-rpi.gpio
            apt-get -y install libpcre3-dev git
            pip3 install -r requirements.txt
@@ -71,7 +71,6 @@ show_menu () {
            confirmAnswer "Are you sure you want to add CraftBeerPi to autostart"
            if [ $? = 0 ]; then
              sed 's/#DIR#/${PWD}/g' config/craftbeerpiboot > /etc/init.d/craftbeerpiboot
-            #  chmod 755 /etc/init.d/craftbeerpiboot;
              chmod +x /etc/init.d/craftbeerpiboot;
              update-rc.d craftbeerpiboot defaults;
              whiptail --title "Added succesfull to autostart" --msgbox "The CraftBeerPi was added to autostart succesfully. You must hit OK to continue." 8 78
@@ -97,7 +96,7 @@ show_menu () {
            ;;
        6)
            sudo /etc/init.d/craftbeerpiboot stop
-           whiptail --title "CraftBeerPi stoped" --msgbox "The software is stoped" 8 78
+           whiptail --title "CraftBeerPi stopped" --msgbox "The software is stopped" 8 78
            show_menu
             ;;
        7)
@@ -144,6 +143,18 @@ show_menu () {
 	      sudo rm -rf logs/*.log
 	      sudo /etc/init.d/craftbeerpiboot start
 	      show_menu
+            else
+              show_menu
+            fi
+            ;;
+        12)
+            confirmAnswer "Are you sure you want to uninstall CraftBeerPi?"
+            if [ $? = 0]; then
+              sudo /etc/init.d/craftbeerpiboot stop
+              update-rc.d -f craftbeerpiboot remove
+              sudo rm -f /etc/init.d/craftbeerpiboot
+              whiptail --title "Uninstalled" --msgbox "CraftBeerPi was uninstalled. Press OK to continue." 8 78
+              show_menu
             else
               show_menu
             fi
