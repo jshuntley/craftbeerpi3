@@ -1,6 +1,6 @@
 # CraftBeerPi V3.0
 
-This is CraftBeerPi version 3.0. It's currently in beta status.
+This is CraftBeerPi version 3.0 with a working installer.
 
 ## Introduction Video
 
